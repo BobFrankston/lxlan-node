@@ -9,7 +9,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "preversion": "npm run build",
-    "postversion": "git push && git push --tags && npm publish",
+    "postversion": "git push && git push --tags && npm publish --loglevel=error",
     "release": "git add -A && git diff-index --quiet HEAD || git commit -m 'Build for release' && npm version patch"
   },
   "keywords": [
