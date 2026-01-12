@@ -1,3 +1,9 @@
+# CRITICAL: NEVER commit certificates or private keys!
+# Excludes all directories/junctions with 'cert' in the name
+cert*/
+*cert*/
+**/cert*/
+**/*cert*/
 node_modules/
 *.log
 .env*
