@@ -4,6 +4,10 @@ tsconfig.json
 .vscode/
 .git/
 .gitignore
+.gitattributes
 node_modules/
 *.log
 .env*
+.DS_Store
+Thumbs.db
+README.md
