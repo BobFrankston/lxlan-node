@@ -25,7 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@bobfrankston/lxlan": "file:../lxlan",
-    "@bobfrankston/rmfudp": "file:../../../../utils/rmfudp"
+    "@bobfrankston/rmfudp": "file:../../../../utils/udp/rmfudp"
   },
   "devDependencies": {
     "@types/node": "^25.0.6"
