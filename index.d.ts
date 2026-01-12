@@ -13,7 +13,7 @@ export interface LxClientOptions {
 /**
  * Create a Node.js LIFX LAN client
  * @param options - Client options
- * @returns LxClient configured with UDP transport
+ * @returns LxClient configured with UDP transport and Node.js EventEmitter
  */
 export declare function createClient(options?: LxClientOptions): LxClient;
 export { LxClient, LxDevice, LxMessage, MessageType, LIFX_PORT } from '@bobfrankston/lxlan';

@@ -1,16 +1,26 @@
 {
   "name": "@bobfrankston/lxlan-node",
-  "version": "0.1.0",
-  "description": "Node.js transport wrapper for LIFX LAN protocol (lxlan)",
+  "version": "0.1.1",
+  "description": "Node.js transport wrapper for LIFX LAN protocol (lxlan) - provides UDP transport via rmfudp",
   "type": "module",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "release": "npm run build && npm version patch && git push && git push --tags && npm publish"
+    "preversion": "npm run build",
+    "postversion": "git push && git push --tags && npm publish",
+    "release": "git add -A && git diff-index --quiet HEAD || git commit -m 'Build for release' && npm version patch"
   },
-  "keywords": ["lifx", "lan", "udp", "nodejs", "iot", "smart-home"],
+  "keywords": [
+    "lifx",
+    "lan",
+    "udp",
+    "nodejs",
+    "iot",
+    "smart-home",
+    "rmfudp"
+  ],
   "author": "Bob Frankston",
   "license": "MIT",
   "dependencies": {

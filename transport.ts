@@ -16,7 +16,7 @@ export class NodeUdpTransport implements LxTransport {
             reuseAddr
         });
 
-        this.socket.on('message', (msg, rinfo) => {
+        this.socket.on('message', (msg: Buffer, rinfo: { address: string; port: number }) => {
             if (this.messageHandler) {
                 this.messageHandler(msg, {
                     address: rinfo.address,
@@ -25,7 +25,7 @@ export class NodeUdpTransport implements LxTransport {
             }
         });
 
-        this.socket.on('error', (err) => {
+        this.socket.on('error', (err: Error) => {
             if (this.errorHandler) {
                 this.errorHandler(err);
             }

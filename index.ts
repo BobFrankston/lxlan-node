@@ -1,3 +1,4 @@
+import { EventEmitter } from 'node:events';
 import { LxClient, LxClientOptions as CoreOptions } from '@bobfrankston/lxlan';
 import { NodeUdpTransport, getBroadcastAddresses } from './transport.js';
 
@@ -16,16 +17,18 @@ export interface LxClientOptions {
 /**
  * Create a Node.js LIFX LAN client
  * @param options - Client options
- * @returns LxClient configured with UDP transport
+ * @returns LxClient configured with UDP transport and Node.js EventEmitter
  */
 export function createClient(options: LxClientOptions = {}): LxClient {
     const port = options.port ?? 56700;
     const broadcastAddresses = options.broadcastAddresses ?? getBroadcastAddresses();
     
     const transport = new NodeUdpTransport(port, true);
+    const eventEmitter = new EventEmitter();
     
     const coreOptions: CoreOptions = {
         transport,
+        eventEmitter,
         broadcastAddresses,
         port,
         discoveryInterval: options.discoveryInterval
