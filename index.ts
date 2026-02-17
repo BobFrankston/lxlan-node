@@ -1,17 +1,26 @@
-import { EventEmitter } from 'node:events';
 import { LxClient, LxClientOptions as CoreOptions } from '@bobfrankston/lxlan';
-import { NodeUdpTransport, getBroadcastAddresses } from './transport.js';
+import { NodeUdpTransport, getBroadcastAddresses } from './lntransport.js';
+import { EventEmitter } from 'node:events';
+
+/**
+ * Node.js EventEmitter wrapper to match LxEventEmitter interface
+ */
+class NodeEventEmitter extends EventEmitter {
+    off(event: string, listener: (...args: any[]) => void): this {
+        return this.removeListener(event, listener);
+    }
+}
 
 /**
  * Node.js-specific options for LIFX LAN client
  */
 export interface LxClientOptions {
-    /** UDP port to bind (default 56700, use 0 for ephemeral to support multiple instances) */
-    port?: number;
-    /** Broadcast addresses for discovery (auto-detected from network interfaces if not specified) */
-    broadcastAddresses?: string[];
     /** Auto-discovery interval in ms (0 = manual only, default 0) */
     discoveryInterval?: number;
+    /** Enable debug logging (default: false) */
+    debug?: boolean;
+    /** Custom logger function (overrides debug flag) */
+    logger?: (msg: string, colors?: string) => void;
 }
 
 /**
@@ -20,18 +29,17 @@ export interface LxClientOptions {
  * @returns LxClient configured with UDP transport and Node.js EventEmitter
  */
 export function createClient(options: LxClientOptions = {}): LxClient {
-    const port = options.port ?? 56700;
-    const broadcastAddresses = options.broadcastAddresses ?? getBroadcastAddresses();
+    const transport = new NodeUdpTransport();
+    const eventEmitter = new NodeEventEmitter();
     
-    const transport = new NodeUdpTransport(port, true);
-    const eventEmitter = new EventEmitter();
-    
+    // Suppress logging by default — only log if debug=true or custom logger provided
+    const logger = options.logger ?? (options.debug ? (msg: string) => console.log(msg) : () => {});
+
     const coreOptions: CoreOptions = {
         transport,
         eventEmitter,
-        broadcastAddresses,
-        port,
-        discoveryInterval: options.discoveryInterval
+        discoveryInterval: options.discoveryInterval,
+        logger
     };
     
     return new LxClient(coreOptions);
@@ -39,4 +47,4 @@ export function createClient(options: LxClientOptions = {}): LxClient {
 
 // Re-export core types
 export { LxClient, LxDevice, LxMessage, MessageType, LIFX_PORT } from '@bobfrankston/lxlan';
-export { NodeUdpTransport, getBroadcastAddresses } from './transport.js';
+export { NodeUdpTransport, getBroadcastAddresses } from './lntransport.js';

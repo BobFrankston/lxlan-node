@@ -1,8 +1,34 @@
-# lxlan-node
+# @bobfrankston/lxlan-node
 
-Node.js transport wrapper for LIFX LAN protocol (lxlan).
+Node.js transport adapter for LIFX LAN protocol. Connects `@bobfrankston/lxlan` with `@bobfrankston/rmfudp`.
 
-This package provides UDP transport for the browser-compatible `@bobfrankston/lxlan` core library.
+## Purpose
+
+This package bridges two components:
+- **[@bobfrankston/lxlan](../lxlan)** - Core LIFX protocol library (transport-agnostic)
+- **[@bobfrankston/rmfudp](../../../../utils/udp/rmfudp)** - Node.js UDP transport
+
+It knows:
+- ✅ How to adapt rmfudp's UDP interface to lxlan's transport interface
+- ✅ Node.js-specific initialization patterns
+
+It does **NOT** know:
+- ❌ LIFX protocol details (delegated to lxlan)
+- ❌ UDP implementation details (delegated to rmfudp)
+
+## Architecture
+
+```
+Your Node.js App
+      ↓
+  lxlan-node (this package) - adapter layer
+      ↓                 ↓
+   lxlan            rmfudp
+ (protocol)      (UDP transport)
+      ↓                 ↓
+   LIFX            Node dgram
+  devices           (UDP)
+```
 
 ## Installation
 
@@ -17,8 +43,7 @@ import { createClient } from '@bobfrankston/lxlan-node';
 
 // Create client with automatic discovery
 const client = createClient({
-    discoveryInterval: 30000,  // Discover every 30 seconds
-    port: 0  // Ephemeral port for multi-instance support
+    discoveryInterval: 30000  // Discover every 30 seconds
 });
 
 // Start listening
@@ -37,6 +62,24 @@ client.on('deviceInfo', (device) => {
 });
 ```
 
+### Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `discoveryInterval` | `number` | `0` | Auto-discovery interval in ms (0 = manual only) |
+| `debug` | `boolean` | `false` | Enable `[LxClient]` debug logging to console |
+| `logger` | `(msg, colors?) => void` | no-op | Custom logger function (overrides `debug`) |
+
+By default the client is **silent** — no console output. To see protocol-level debug messages:
+
+```typescript
+// Use built-in console logging
+const client = createClient({ debug: true });
+
+// Or provide a custom logger
+const client = createClient({ logger: (msg) => myLogger.debug(msg) });
+```
+
 ## Build
 
 To work around TypeScript compilation issues with dependency type definitions:
@@ -48,8 +91,3 @@ npm install
 
 The package includes pre-compiled JavaScript and type definitions.
 
-## Architecture
-
-- **lxlan** - Core protocol library (browser-compatible)
-- **lxlan-node** - Node.js UDP transport (this package)
-- Future: **lxlan-web** - Browser HTTP/WebSocket transport

@@ -1,11 +1,17 @@
-# CRITICAL: NEVER commit certificates or private keys!
-# Excludes all directories/junctions with 'cert' in the name
-cert*/
-*cert*/
-**/cert*/
 **/*cert*/
-node_modules/
+**/cert*/
+*.key
 *.log
-.env*
+*.p12
+*.pem
+*.pfx
+*.token
+*cert*/
 .DS_Store
+.env*
+.globalize.json5
 Thumbs.db
+cert*/
+node_modules/
+token
+tokens

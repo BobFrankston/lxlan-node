@@ -11,3 +11,14 @@ node_modules/
 .DS_Store
 Thumbs.db
 README.md
+*.map
+certs/
+*cert*/
+token*
+cruft/
+prev/
+tests/
+*.md
+!README.md
+package-lock.json
+.globalize.json5
