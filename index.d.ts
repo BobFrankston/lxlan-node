@@ -16,6 +16,7 @@ export interface LxClientOptions {
  * @returns LxClient configured with UDP transport and Node.js EventEmitter
  */
 export declare function createClient(options?: LxClientOptions): LxClient;
-export { LxClient, LxDevice, LxMessage, MessageType, LIFX_PORT } from '@bobfrankston/lxlan';
+export { LxClient, LxDevice, LxMessage, MessageType, LIFX_PORT, HEADER_SIZE, WifiSecurity } from '@bobfrankston/lxlan';
+export { encodeMessage, decodeMessage, encodeSetWifiConfiguration, encodeGetWifiConfiguration, decodeStateWifiConfiguration, encodeSetLabel, encodeSetColor, encodeSetPower, encodeSetGroup, encodeSetLocation, encodeSetWaveformOptional, encodeGetService, decodeState, decodeStatePower, decodeStateLabel, decodeStateVersion, decodeStateGroup, decodeStateService, decodeStateHostInfo, decodeStateHostFirmware, decodeStateWifiInfo, decodeStateInfo, FrameFlags, ProtocolBits, nextSequence, getSource, } from '@bobfrankston/lxlan';
 export { NodeUdpTransport, getBroadcastAddresses } from './lntransport.js';
 //# sourceMappingURL=index.d.ts.map

@@ -45,6 +45,19 @@ export function createClient(options: LxClientOptions = {}): LxClient {
     return new LxClient(coreOptions);
 }
 
-// Re-export core types
-export { LxClient, LxDevice, LxMessage, MessageType, LIFX_PORT } from '@bobfrankston/lxlan';
+// Re-export core types and constants
+export { LxClient, LxDevice, LxMessage, MessageType, LIFX_PORT, HEADER_SIZE, WifiSecurity } from '@bobfrankston/lxlan';
+
+// Re-export protocol encode/decode functions
+export {
+    encodeMessage, decodeMessage,
+    encodeSetWifiConfiguration, encodeGetWifiConfiguration, decodeStateWifiConfiguration,
+    encodeSetLabel, encodeSetColor, encodeSetPower, encodeSetGroup, encodeSetLocation,
+    encodeSetWaveformOptional, encodeGetService,
+    decodeState, decodeStatePower, decodeStateLabel, decodeStateVersion,
+    decodeStateGroup, decodeStateService, decodeStateHostInfo, decodeStateHostFirmware,
+    decodeStateWifiInfo, decodeStateInfo,
+    FrameFlags, ProtocolBits, nextSequence, getSource,
+} from '@bobfrankston/lxlan';
+
 export { NodeUdpTransport, getBroadcastAddresses } from './lntransport.js';
