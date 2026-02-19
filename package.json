@@ -1,6 +1,6 @@
 {
   "name": "@bobfrankston/lxlan-node",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Node.js transport wrapper for LIFX LAN protocol (lxlan) - provides UDP transport via rmfudp",
   "type": "module",
   "main": "index.js",
@@ -9,7 +9,8 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "preversion": "npm run build",
-    "release": "git add -A && git diff-index --quiet HEAD || git commit -m 'Build for release' && npm version patch"
+    "release": "git add -A && git diff-index --quiet HEAD || git commit -m 'Build for release' && npm version patch",
+    "postversion": "git push && git push --tags && npm publish --loglevel=error"
   },
   "keywords": [
     "lifx",
