@@ -24,9 +24,9 @@
   "author": "Bob Frankston",
   "license": "MIT",
   "dependencies": {
-    "@bobfrankston/lxlan": "^0.1.17",
-    "@bobfrankston/rmfudp": "^0.1.12",
-    "@bobfrankston/udp-transport": "^1.0.2"
+    "@bobfrankston/lxlan": "file:../lxlan",
+    "@bobfrankston/rmfudp": "file:../../../../utils/udp/rmfudp",
+    "@bobfrankston/udp-transport": "file:../../../../utils/udp/udp-transport"
   },
   "devDependencies": {
     "@types/node": "^25.2.1"
@@ -34,10 +34,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/BobFrankston/lxlan-node.git"
-  },
-  ".dependencies": {
-    "@bobfrankston/lxlan": "file:../lxlan",
-    "@bobfrankston/rmfudp": "file:../../../../utils/udp/rmfudp",
-    "@bobfrankston/udp-transport": "file:../../../../utils/udp/udp-transport"
   }
 }
