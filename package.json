@@ -9,8 +9,7 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "preversion": "npm run build",
-    "release": "git add -A && git diff-index --quiet HEAD || git commit -m 'Build for release' && npm version patch",
-    "postversion": "git push && git push --tags && npm publish --loglevel=error"
+    "release": "git add -A && git diff-index --quiet HEAD || git commit -m 'Build for release' && npm version patch"
   },
   "keywords": [
     "lifx",
