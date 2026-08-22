@@ -22,3 +22,6 @@ tests/
 !README.md
 package-lock.json
 .globalize.json5
+*.tgz
+.claude/
+.commitmsg

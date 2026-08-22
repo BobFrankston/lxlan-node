@@ -1,33 +1,33 @@
 # @bobfrankston/lxlan-node
 
-Node.js transport adapter for LIFX LAN protocol. Connects `@bobfrankston/lxlan` with `@bobfrankston/rmfudp`.
+Node.js transport adapter for LIFX LAN protocol. Thin wrapper connecting `@bobfrankston/lxlan` with `@bobfrankston/node-transport`.
 
 ## Purpose
 
 This package bridges two components:
 - **[@bobfrankston/lxlan](../lxlan)** - Core LIFX protocol library (transport-agnostic)
-- **[@bobfrankston/rmfudp](../../../../utils/udp/rmfudp)** - Node.js UDP transport
+- **[@bobfrankston/node-transport](../../../../utils/udp/node-transport)** - Shared Node.js UDP transport
 
 It knows:
-- ✅ How to adapt rmfudp's UDP interface to lxlan's transport interface
-- ✅ Node.js-specific initialization patterns
+- ✅ LIFX default port (56700) and initialization patterns
+- ✅ How to wire node-transport into lxlan
 
 It does **NOT** know:
 - ❌ LIFX protocol details (delegated to lxlan)
-- ❌ UDP implementation details (delegated to rmfudp)
+- ❌ UDP implementation details (delegated to node-transport/rmfudp)
 
 ## Architecture
 
 ```
 Your Node.js App
       ↓
-  lxlan-node (this package) - adapter layer
+  lxlan-node (this package) - thin wrapper
       ↓                 ↓
-   lxlan            rmfudp
- (protocol)      (UDP transport)
+   lxlan          node-transport
+ (protocol)      (shared transport)
       ↓                 ↓
-   LIFX            Node dgram
-  devices           (UDP)
+   LIFX              rmfudp
+  devices          (UDP socket)
 ```
 
 ## Installation

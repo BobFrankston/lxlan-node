@@ -1,15 +1,10 @@
-import { LxClient, LxClientOptions as CoreOptions } from '@bobfrankston/lxlan';
-import { NodeUdpTransport, getBroadcastAddresses } from './lntransport.js';
-import { EventEmitter } from 'node:events';
-
 /**
- * Node.js EventEmitter wrapper to match LxEventEmitter interface
+ * lxlan-node — Node.js wrapper for LIFX LAN protocol.
+ * Thin wrapper: delegates transport to @bobfrankston/node-transport.
  */
-class NodeEventEmitter extends EventEmitter {
-    off(event: string, listener: (...args: any[]) => void): this {
-        return this.removeListener(event, listener);
-    }
-}
+
+import { LxClient, LxClientOptions as CoreOptions } from '@bobfrankston/lxlan';
+import { NodeUdpTransport, NodeEventEmitter, getBroadcastAddresses } from '@bobfrankston/node-transport';
 
 /**
  * Node.js-specific options for LIFX LAN client
@@ -26,23 +21,17 @@ export interface LxClientOptions {
 /**
  * Create a Node.js LIFX LAN client
  * @param options - Client options
- * @returns LxClient configured with UDP transport and Node.js EventEmitter
+ * @returns LxClient configured with NodeUdpTransport
  */
 export function createClient(options: LxClientOptions = {}): LxClient {
-    const transport = new NodeUdpTransport();
-    const eventEmitter = new NodeEventEmitter();
-    
     // Suppress logging by default — only log if debug=true or custom logger provided
     const logger = options.logger ?? (options.debug ? (msg: string) => console.log(msg) : () => {});
 
-    const coreOptions: CoreOptions = {
-        transport,
-        eventEmitter,
+    return new LxClient({
+        Transport: NodeUdpTransport,
         discoveryInterval: options.discoveryInterval,
-        logger
-    };
-    
-    return new LxClient(coreOptions);
+        logger,
+    });
 }
 
 // Re-export core types and constants
@@ -60,4 +49,5 @@ export {
     FrameFlags, ProtocolBits, nextSequence, getSource,
 } from '@bobfrankston/lxlan';
 
-export { NodeUdpTransport, getBroadcastAddresses } from './lntransport.js';
+// Re-export transport classes for backwards compatibility
+export { NodeUdpTransport, NodeEventEmitter, getBroadcastAddresses } from '@bobfrankston/node-transport';
